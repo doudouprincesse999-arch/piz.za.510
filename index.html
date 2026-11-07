@@ -1,0 +1,482 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>piz.za.510</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Figtree:wght@400;500;600&family=Cairo:wght@500;700;800&display=swap">
+<style>
+/* Layout: sticky menu tabs under a bold wordmark hero; price rows with two sizes; slide-up cart that sends the order by WhatsApp */
+:root {
+  --bg: #fffaf4;
+  --band: #1a1210;
+  --band-fg: #fff4e6;
+  --band-muted: #d2c3b6;
+  --band-line: #4a382f;
+  --yellow: #ffc21a;
+  --surface: #ffffff;
+  --fg: #1d1512;
+  --muted: #6b5d55;
+  --line: #eadfd5;
+  --accent: #c8231a;
+  --accent-fg: #ffffff;
+  --tomato: #c8231a;
+  --f-display: "Bricolage Grotesque", "Arial Black", system-ui, sans-serif;
+  --f-body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #130e0c; --band: #1a1210; --surface: #1d1613; --fg: #f6ece4; --muted: #b3a398; --line: #33261f;
+    --accent: #ff5a4a; --accent-fg: #1a0705; --tomato: #ff5a4a; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #130e0c; --band: #1a1210; --surface: #1d1613; --fg: #f6ece4; --muted: #b3a398; --line: #33261f;
+  --accent: #ff5a4a; --accent-fg: #1a0705; --tomato: #ff5a4a; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg); font-family: var(--f-body); font-size: 16px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 96px;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg); }
+.band .hero .tag, .band .hero p { color: var(--band-muted); }
+.band .hero h1 { color: var(--band-fg); }
+.band .hero h1 span { color: var(--yellow); }
+.band .hero .facts li { background: transparent; border-color: var(--band-line); color: var(--band-fg); }
+.band .hero .facts b { color: var(--yellow); }
+.band { max-width: 880px; margin: 12px auto 0; padding-inline: clamp(18px, 5vw, 40px); border-radius: 32px; overflow: hidden;
+  background: radial-gradient(90% 80% at 100% 0%, rgba(217, 31, 22, .6), transparent 60%), radial-gradient(70% 70% at 0% 100%, rgba(255, 194, 26, .16), transparent 65%), var(--band); }
+.wrap { max-width: 880px; margin: 0 auto; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-height: 1.05; }
+a { color: inherit; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+.hero { padding-block: 40px 28px; display: grid; gap: 20px; }
+.tag { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.top { display: flex; justify-content: space-between; align-items: center; gap: 16px; direction: ltr; }
+.top .tag { padding-top: 8px; min-width: 0; }
+.logo { flex: none; width: clamp(72px, 20vw, 104px); height: auto; border-radius: 50%; }
+.hero h1 { font-size: clamp(3.2rem, 14vw, 7rem); font-weight: 800; letter-spacing: -.03em; }
+.hero h1 span { color: var(--tomato); }
+.hero p { max-width: 46ch; color: var(--muted); font-size: 1.05rem; margin: 0; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0; list-style: none; }
+.facts li { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 14px; font-size: 14px; font-weight: 500; }
+.facts b { color: var(--accent); font-weight: 600; }
+
+.tabs-bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--bg) 88%, transparent); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); margin-top: 8px; margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); padding-inline: max(16px, env(safe-area-inset-left, 0px)); }
+.tabs { display: flex; gap: 8px; overflow-x: auto; padding-block: 12px; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab { flex: none; border: 1px solid var(--line); background: transparent; border-radius: 999px; padding: 8px 18px; font-weight: 600; }
+.tab[aria-selected="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+
+.menu { padding-block: 28px 8px; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); gap: 14px; }
+.menu h2 { grid-column: 1 / -1; font-size: clamp(2rem, 7vw, 2.8rem); font-weight: 800; letter-spacing: -.02em; }
+.menu .sub { grid-column: 1 / -1; color: var(--muted); margin: -8px 0 6px; }
+.item { display: flex; flex-direction: column; justify-content: space-between; gap: 18px; padding: 20px; background: var(--surface); border: 1px solid var(--line); border-radius: 24px; transition: transform .2s, box-shadow .2s; }
+.pic { height: 136px; display: grid; place-items: center; border-radius: 16px; background: color-mix(in srgb, var(--accent) 8%, var(--bg)); }
+.pic svg { width: 116px; height: 116px; }
+.item:hover { transform: translateY(-2px); box-shadow: 0 10px 28px -14px rgba(0, 0, 0, .35); }
+.item h3 { font-size: 1.3rem; font-weight: 800; letter-spacing: -.01em; }
+.item p { margin: 4px 0 0; color: var(--muted); font-size: 14.5px; }
+.badge { display: inline-block; font-family: var(--f-body); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; font-weight: 600; color: var(--tomato); border: 1px solid currentColor; border-radius: 4px; padding: 1px 6px; margin-inline-start: 8px; vertical-align: middle; }
+.buy { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-start; }
+.buy button { border: 0; background: color-mix(in srgb, var(--accent) 12%, transparent); color: var(--accent); border-radius: 999px; padding: 9px 16px; min-width: 88px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.2; }
+.buy button small { display: block; font-size: 11px; font-weight: 500; opacity: .8; letter-spacing: .04em; }
+.buy button:hover { background: var(--accent); color: var(--accent-fg); }
+@media (max-width: 520px) { .item { grid-template-columns: 1fr; } .buy { justify-content: flex-start; } }
+
+.info { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; padding-block: 36px 24px; }
+.info > div { background: var(--surface); border: 1px solid var(--line); border-radius: 24px; padding: 22px; }
+.info h2 { font-size: 1.3rem; margin-bottom: 8px; }
+.info p, .info li { color: var(--muted); margin: 0 0 4px; }
+.info ul { list-style: none; padding: 0; margin: 0; }
+.info .num { color: var(--fg); font-weight: 600; font-variant-numeric: tabular-nums; user-select: all; }
+footer { padding-block: 8px 24px; color: var(--muted); font-size: 13px; }
+
+.bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; padding: 12px max(16px, env(safe-area-inset-left, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)); background: linear-gradient(to top, var(--bg) 70%, transparent); }
+.bar button { display: flex; width: 100%; max-width: 880px; margin: 0 auto; justify-content: space-between; align-items: center; background: var(--accent); color: var(--accent-fg); border: 0; border-radius: 999px; padding: 16px 24px; box-shadow: 0 12px 30px -10px rgba(200, 35, 26, .6); font-weight: 600; font-size: 16px; font-variant-numeric: tabular-nums; }
+
+.sheet { position: fixed; inset: 0; z-index: 50; display: flex; align-items: flex-end; justify-content: center; background: rgba(0, 0, 0, .5); }
+.panel { width: 100%; max-width: 560px; max-height: 92%; overflow-y: auto; background: var(--surface); border-radius: 28px 28px 0 0; padding: 20px max(16px, env(safe-area-inset-left, 0px)) calc(20px + env(safe-area-inset-bottom, 0px)); display: grid; gap: 14px; }
+.panel header { display: flex; justify-content: space-between; align-items: center; }
+.panel h2 { font-size: 1.6rem; }
+.x { border: 1px solid var(--line); background: transparent; border-radius: 10px; width: 40px; height: 40px; font-size: 20px; line-height: 1; }
+.line { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; padding-block: 10px; border-bottom: 1px solid var(--line); }
+.line b { font-weight: 600; }
+.line small { color: var(--muted); display: block; }
+.qty { display: inline-flex; align-items: center; gap: 10px; margin-top: 6px; }
+.qty button { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--line); background: transparent; font-size: 18px; line-height: 1; }
+.amt { font-variant-numeric: tabular-nums; font-weight: 600; text-align: end; }
+.sum { display: grid; gap: 4px; font-variant-numeric: tabular-nums; }
+.sum div { display: flex; justify-content: space-between; color: var(--muted); }
+.sum .tot { color: var(--fg); font-weight: 800; font-size: 1.2rem; }
+.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.seg label { border: 1.5px solid var(--line); border-radius: 10px; padding: 10px; text-align: center; font-weight: 600; cursor: pointer; }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg input:checked + span { color: var(--accent); }
+.seg label:has(input:checked) { border-color: var(--accent); }
+.field { display: grid; gap: 4px; font-size: 14px; font-weight: 600; }
+.field input, .field textarea { font: inherit; font-weight: 400; color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; width: 100%; }
+.send { display: block; text-align: center; text-decoration: none; background: var(--accent); color: var(--accent-fg); border-radius: 999px; padding: 16px; font-weight: 600; }
+.send[aria-disabled="true"] { opacity: .45; pointer-events: none; }
+.hint { color: var(--muted); font-size: 13px; margin: 0; }
+.empty { color: var(--muted); padding-block: 16px; }
+@media (prefers-reduced-motion: no-preference) { .panel { animation: up .25s ease-out; } @keyframes up { from { transform: translateY(40px); opacity: 0; } } }
+
+/* Langues */
+.langs { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+.langs button { border: 1px solid var(--band-line); background: transparent; color: var(--band-fg); border-radius: 999px; padding: 7px 14px; font-weight: 600; font-size: 14px; }
+.langs button[aria-pressed="true"] { background: var(--yellow); border-color: var(--yellow); color: #1a1210; }
+.hero h1 { direction: ltr; unicode-bidi: isolate; }
+html[dir="rtl"] .hero h1 { text-align: right; }
+.info .num { direction: ltr; unicode-bidi: isolate; }
+html[dir="rtl"] .info .num { text-align: right; }
+html[lang="ar"] { --f-display: "Cairo", "Segoe UI", Tahoma, system-ui, sans-serif; --f-body: "Cairo", "Segoe UI", Tahoma, system-ui, sans-serif; }
+html[lang="ar"] * { letter-spacing: 0 !important; }
+html[lang="ar"] .hero h1 { font-family: "Bricolage Grotesque", "Arial Black", system-ui, sans-serif; }
+input[type="tel"] { direction: ltr; text-align: start; }
+html[dir="rtl"] input[type="tel"] { text-align: right; }
+.pic img { width: 100%; height: 100%; object-fit: cover; border-radius: 16px; display: block; }
+</style>
+
+<div class="band"><div class="wrap">
+  <section class="hero">
+    <div class="top">
+      <div class="langs" role="group" aria-label="Langue / Language / اللغة">
+        <button type="button" data-lang="fr">Français</button>
+        <button type="button" data-lang="ar">العربية</button>
+        <button type="button" data-lang="en">English</button>
+      </div>
+      <img class="logo" src="logo.png" alt="Logo piz.za.510" width="96" height="96">
+    </div>
+    <div class="tag" data-i18n="tag"></div>
+    <h1>piz.za.<span>510</span></h1>
+    <p data-i18n="hero"></p>
+    <ul class="facts">
+      <li><span data-i18n="fOpen"></span> <b data-i18n="fOpenV"></b></li>
+      <li><span data-i18n="fDel"></span> <b data-i18n="fDelV"></b></li>
+      <li><span data-i18n="fPay"></span> <b data-i18n="fPayV"></b></li>
+    </ul>
+  </section>
+</div></div>
+
+<div class="tabs-bar"><div class="wrap"><div class="tabs" role="tablist" id="tabs"></div></div></div>
+
+<div class="wrap">
+  <main class="menu" id="menu"></main>
+
+  <section class="info" id="infos">
+    <div>
+      <h2 data-i18n="iOrder"></h2>
+      <p data-i18n="iOrderP"></p>
+      <p class="num">0550 00 00 00</p>
+    </div>
+    <div>
+      <h2 data-i18n="iHours"></h2>
+      <ul><li data-i18n="iHours1"></li><li data-i18n="iHours2"></li></ul>
+    </div>
+    <div>
+      <h2 data-i18n="iDel"></h2>
+      <p data-i18n="iDelP"></p>
+    </div>
+  </section>
+  <footer data-i18n="foot"></footer>
+</div>
+
+<div class="bar" id="bar" hidden>
+  <button type="button" id="openCart"><span id="barCount"></span><span id="barTotal"></span></button>
+</div>
+
+<div class="sheet" id="sheet" hidden>
+  <div class="panel" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+    <header><h2 id="cartTitle" data-i18n="cartTitle"></h2><button type="button" class="x" id="closeCart" data-aria="close">×</button></header>
+    <div id="lines"></div>
+    <div class="seg" id="mode">
+      <label><input type="radio" name="mode" value="livraison" checked><span data-i18n="mDel"></span></label>
+      <label><input type="radio" name="mode" value="emporter"><span data-i18n="mTake"></span></label>
+    </div>
+    <div class="field"><label for="name" data-i18n="nameL"></label><input id="name" autocomplete="name" data-ph="namePh"></div>
+    <div class="field"><label for="phone" data-i18n="phoneL"></label><input id="phone" type="tel" autocomplete="tel" placeholder="05 50 00 00 00"></div>
+    <div class="field" id="addrBox"><label for="addr" data-i18n="addrL"></label><textarea id="addr" rows="2" data-ph="addrPh"></textarea></div>
+    <div class="sum" id="sum"></div>
+    <a class="send" id="send" href="#" target="_blank" rel="noopener" aria-disabled="true"></a>
+    <p class="hint" data-i18n="hint"></p>
+  </div>
+</div>
+
+<script>
+// Remplacer par le vrai numéro (format international, sans + ni espaces)
+var WHATSAPP = "213550000000";
+var DELIVERY_FEE = 200, MIN_ORDER = 800;
+
+var LANGS = ["fr", "ar", "en"];
+var IDX = { fr: 0, en: 1, ar: 2 };
+var lang = "fr";
+try { var saved = localStorage.getItem("lang"); if (LANGS.indexOf(saved) > -1) lang = saved; } catch (e) {}
+
+var T = {
+  fr: {
+    tag: "Pizzeria · Livraison · À emporter",
+    hero: "Pâte préparée chaque matin, cuisson au feu vif, livrée chaude chez vous. Choisissez vos plats et envoyez votre commande directement sur WhatsApp.",
+    fOpen: "Ouvert", fOpenV: "11h00 – 23h30", fDel: "Livraison", fDelV: "200 DA", fPay: "Paiement", fPayV: "à la livraison",
+    iOrder: "Commander", iOrderP: "Appelez ou écrivez-nous sur WhatsApp.",
+    iHours: "Horaires", iHours1: "Dimanche – Jeudi : 11h00 – 23h00", iHours2: "Vendredi – Samedi : 11h00 – 23h30",
+    iDel: "Livraison", iDelP: "Frais fixes de 200 DA. Commande minimale 800 DA. Environ 35 minutes selon la distance.",
+    foot: "© 2026 piz.za.510. Prix en dinars algériens (DA).",
+    cartTitle: "Votre commande", close: "Fermer", mDel: "Livraison", mTake: "À emporter",
+    nameL: "Nom", namePh: "Votre nom", phoneL: "Téléphone", addrL: "Adresse de livraison", addrPh: "Quartier, rue, repère",
+    send: "Envoyer la commande sur WhatsApp", minMsg: "Commande minimale : ",
+    hint: "WhatsApp s’ouvre avec votre commande déjà écrite. Vous n’avez qu’à l’envoyer.",
+    empty: "Votre panier est vide.", sub: "Sous-total", del: "Livraison", total: "Total",
+    item: "article", items: "articles", add: "Ajouter", rem: "Retirer un"
+  },
+  en: {
+    tag: "Pizzeria · Delivery · Takeaway",
+    hero: "Dough made fresh every morning, baked in a hot oven and delivered hot to your door. Pick your dishes and send your order straight to WhatsApp.",
+    fOpen: "Open", fOpenV: "11:00 – 23:30", fDel: "Delivery", fDelV: "200 DA", fPay: "Payment", fPayV: "on delivery",
+    iOrder: "Order", iOrderP: "Call us or message us on WhatsApp.",
+    iHours: "Opening hours", iHours1: "Sunday – Thursday: 11:00 – 23:00", iHours2: "Friday – Saturday: 11:00 – 23:30",
+    iDel: "Delivery", iDelP: "Flat fee of 200 DA. Minimum order 800 DA. About 35 minutes depending on distance.",
+    foot: "© 2026 piz.za.510. Prices in Algerian dinars (DA).",
+    cartTitle: "Your order", close: "Close", mDel: "Delivery", mTake: "Takeaway",
+    nameL: "Name", namePh: "Your name", phoneL: "Phone", addrL: "Delivery address", addrPh: "Area, street, landmark",
+    send: "Send the order on WhatsApp", minMsg: "Minimum order: ",
+    hint: "WhatsApp opens with your order already written. Just press send.",
+    empty: "Your cart is empty.", sub: "Subtotal", del: "Delivery", total: "Total",
+    item: "item", items: "items", add: "Add", rem: "Remove one"
+  },
+  ar: {
+    tag: "بيتزيريا · توصيل · طلبات للأخذ",
+    hero: "عجينة تُحضَّر كل صباح، تُطهى على نار قوية وتصلكم ساخنة إلى الباب. اختاروا أطباقكم وأرسلوا طلبكم مباشرة عبر واتساب.",
+    fOpen: "مفتوح", fOpenV: "11:00 – 23:30", fDel: "التوصيل", fDelV: "200 دج", fPay: "الدفع", fPayV: "عند الاستلام",
+    iOrder: "اطلب", iOrderP: "اتصلوا بنا أو راسلونا على واتساب.",
+    iHours: "أوقات العمل", iHours1: "الأحد – الخميس: 11:00 – 23:00", iHours2: "الجمعة – السبت: 11:00 – 23:30",
+    iDel: "التوصيل", iDelP: "رسوم ثابتة 200 دج. الحد الأدنى للطلب 800 دج. حوالي 35 دقيقة حسب المسافة.",
+    foot: "© 2026 piz.za.510. الأسعار بالدينار الجزائري (دج).",
+    cartTitle: "طلبكم", close: "إغلاق", mDel: "توصيل", mTake: "للأخذ",
+    nameL: "الاسم", namePh: "اسمكم", phoneL: "الهاتف", addrL: "عنوان التوصيل", addrPh: "الحي، الشارع، معلم قريب",
+    send: "إرسال الطلب عبر واتساب", minMsg: "الحد الأدنى للطلب: ",
+    hint: "يفتح واتساب والطلب مكتوب جاهز. اضغطوا إرسال فقط.",
+    empty: "سلتكم فارغة.", sub: "المجموع الفرعي", del: "التوصيل", total: "المجموع",
+    item: "منتج", items: "منتجات", add: "أضف", rem: "أزل واحدا من"
+  }
+};
+
+// Chaque texte du menu : [français, anglais, arabe]
+var SIZES = [["Moyenne", "Medium", "متوسطة"], ["Grande", "Large", "كبيرة"]];
+var MENU = [
+  { label: ["Pizzas", "Pizzas", "بيتزا"], sub: ["Moyenne (30 cm) ou Grande (40 cm)", "Medium (30 cm) or Large (40 cm)", "متوسطة (30 سم) أو كبيرة (40 سم)"], items: [
+    { n: ["Margherita", "Margherita", "مارغريتا"], d: ["Sauce tomate, mozzarella, olives", "Tomato sauce, mozzarella, olives", "صلصة الطماطم، موزاريلا، زيتون"], p: [500, 800] },
+    { n: ["Reine", "Reine", "ريّن"], d: ["Jambon de dinde, champignons, fromage", "Turkey ham, mushrooms, cheese", "لحم ديك رومي مدخّن، فطر، جبن"], p: [650, 950] },
+    { n: ["Thon", "Tuna", "تونة"], d: ["Thon, oignons, olives, fromage", "Tuna, onions, olives, cheese", "تونة، بصل، زيتون، جبن"], p: [650, 950] },
+    { n: ["Végétarienne", "Vegetarian", "نباتية"], d: ["Poivrons, champignons, maïs, olives, fromage", "Peppers, mushrooms, corn, olives, cheese", "فلفل، فطر، ذرة، زيتون، جبن"], p: [600, 900] },
+    { n: ["Poulet BBQ", "BBQ Chicken", "دجاج باربكيو"], d: ["Poulet mariné, sauce BBQ, oignons rouges, fromage", "Marinated chicken, BBQ sauce, red onions, cheese", "دجاج متبّل، صلصة باربكيو، بصل أحمر، جبن"], p: [750, 1100] },
+    { n: ["Quatre fromages", "Four Cheese", "الأجبان الأربعة"], d: ["Mozzarella, emmental, chèvre, bleu", "Mozzarella, emmental, goat cheese, blue cheese", "موزاريلا، إيمنتال، جبن الماعز، جبن أزرق"], p: [800, 1200] },
+    { n: ["Baraka", "Baraka", "بركة"], d: ["Merguez, poivrons grillés, œuf, harissa maison", "Merguez, grilled peppers, egg, homemade harissa", "مرقاز، فلفل مشوي، بيض، هريسة منزلية"], p: [800, 1200], tag: ["Maison", "House special", "من البيت"] }
+  ]},
+  { label: ["Tacos et sandwichs", "Tacos & sandwiches", "تاكوس وساندويتشات"], sub: ["Servis avec frites", "Served with fries", "تُقدَّم مع البطاطا المقلية"], items: [
+    { n: ["Tacos poulet", "Chicken tacos", "تاكوس دجاج"], d: ["Poulet, frites, sauce fromagère", "Chicken, fries, cheese sauce", "دجاج، بطاطا مقلية، صلصة الجبن"], p: [450] },
+    { n: ["Tacos mixte", "Mixed tacos", "تاكوس ميكس"], d: ["Poulet, merguez, frites, sauce fromagère", "Chicken, merguez, fries, cheese sauce", "دجاج، مرقاز، بطاطا مقلية، صلصة الجبن"], p: [550] },
+    { n: ["Sandwich escalope", "Escalope sandwich", "ساندويتش إسكالوب"], d: ["Escalope panée, salade, tomate, sauce blanche", "Breaded escalope, lettuce, tomato, white sauce", "إسكالوب مقرمش، خس، طماطم، صلصة بيضاء"], p: [400] },
+    { n: ["Burger maison", "House burger", "برغر البيت"], d: ["Steak haché, cheddar, oignons caramélisés", "Beef patty, cheddar, caramelized onions", "شريحة لحم بقري، شيدر، بصل مكرمل"], p: [600] }
+  ]},
+  { label: ["Desserts", "Desserts", "حلويات"], sub: ["", "", ""], items: [
+    { n: ["Tiramisu", "Tiramisu", "تيراميسو"], d: ["Préparé chaque jour", "Made fresh daily", "يُحضَّر كل يوم"], p: [250] },
+    { n: ["Crêpe chocolat", "Chocolate crêpe", "كريب بالشوكولاتة"], d: ["Pâte à tartiner et noisettes", "Chocolate spread and hazelnuts", "شوكولاتة للدهن وبندق"], p: [200] }
+  ]},
+  { label: ["Boissons", "Drinks", "مشروبات"], sub: ["", "", ""], items: [
+    { n: ["Eau minérale 50 cl", "Mineral water 50 cl", "ماء معدني 50 سل"], d: ["", "", ""], p: [50] },
+    { n: ["Boisson gazeuse 33 cl", "Soft drink 33 cl", "مشروب غازي 33 سل"], d: ["Cola, orange ou limonade", "Cola, orange or lemonade", "كولا، برتقال أو ليموناد"], p: [80] },
+    { n: ["Jus de fruits", "Fruit juice", "عصير فواكه"], d: ["Mangue ou citron", "Mango or lemon", "مانجو أو ليمون"], p: [100] }
+  ]}
+];
+
+/* Photos réelles : ajouter ici le fichier de chaque plat, par exemple "Margherita": "photos/margherita.jpg".
+   Sans photo, le plat garde son illustration dessinée. */
+var PHOTOS = {};
+
+/* Illustrations dessinées en SVG, une par plat */
+var TOP = {
+  olive: function (x, y) { return '<circle cx="' + x + '" cy="' + y + '" r="5" fill="#2a2523"/><circle cx="' + x + '" cy="' + y + '" r="2" fill="#ffd25f"/>'; },
+  red: function (x, y) { return '<circle cx="' + x + '" cy="' + y + '" r="6.5" fill="#a81f19"/><circle cx="' + (x - 2) + '" cy="' + (y - 2) + '" r="1.6" fill="#d9574b"/>'; },
+  mush: function (x, y) { return '<ellipse cx="' + x + '" cy="' + y + '" rx="6.5" ry="4.5" fill="#f1e6d6"/><rect x="' + (x - 1.5) + '" y="' + y + '" width="3" height="4" fill="#e0d2bf"/>'; },
+  pepper: function (x, y) { return '<circle cx="' + x + '" cy="' + y + '" r="5" fill="none" stroke="#3f9b3f" stroke-width="3"/>'; },
+  corn: function (x, y) { return '<circle cx="' + x + '" cy="' + y + '" r="2.6" fill="#ffc400"/><circle cx="' + (x + 5) + '" cy="' + (y + 3) + '" r="2.6" fill="#ffc400"/>'; },
+  chicken: function (x, y) { return '<rect x="' + (x - 5) + '" y="' + (y - 4) + '" width="10" height="8" rx="3" fill="#c48b57"/>'; },
+  ham: function (x, y) { return '<rect x="' + (x - 6) + '" y="' + (y - 4) + '" width="12" height="8" rx="2" fill="#ee9a9a"/>'; },
+  tuna: function (x, y) { return '<ellipse cx="' + x + '" cy="' + y + '" rx="6" ry="3.5" fill="#e8bda5"/>'; },
+  onion: function (x, y) { return '<circle cx="' + x + '" cy="' + y + '" r="5" fill="none" stroke="#f4dbe8" stroke-width="2"/>'; },
+  basil: function (x, y) { return '<ellipse cx="' + x + '" cy="' + y + '" rx="6" ry="3" fill="#2f9a47" transform="rotate(-30 ' + x + ' ' + y + ')"/>'; },
+  egg: function (x, y) { return '<circle cx="' + x + '" cy="' + y + '" r="8" fill="#fffdf6"/><circle cx="' + x + '" cy="' + y + '" r="3.5" fill="#ffb800"/>'; },
+  cheese4: function (x, y) { return '<rect x="' + (x - 5) + '" y="' + (y - 5) + '" width="10" height="10" rx="2" fill="#fff6d2"/><circle cx="' + (x - 1) + '" cy="' + (y + 1) + '" r="1.6" fill="#7a95c9"/>'; }
+};
+var PIZZAS = {
+  "Margherita": ["basil", "olive"], "Reine": ["ham", "mush"], "Thon": ["tuna", "olive", "onion"],
+  "Végétarienne": ["pepper", "mush", "corn", "olive"], "Poulet BBQ": ["chicken", "onion"],
+  "Quatre fromages": ["cheese4"], "Baraka": ["red", "pepper", "egg"]
+};
+var POS = [[60, 28], [88, 44], [90, 74], [62, 92], [32, 78], [30, 48], [60, 60], [44, 42], [76, 62], [46, 76]];
+var OTHER = {
+  "Tacos poulet": '<path d="M12 80 A48 48 0 0 1 108 80 Z" fill="#e9c27a"/><path d="M22 80 A38 38 0 0 1 98 80 Z" fill="#6fbf4a"/><rect x="30" y="52" width="10" height="8" rx="3" fill="#c48b57"/><rect x="50" y="46" width="10" height="8" rx="3" fill="#c48b57"/><rect x="70" y="54" width="10" height="8" rx="3" fill="#c48b57"/><g stroke="#ffc82e" stroke-width="5" stroke-linecap="round"><path d="M34 34 L28 18"/><path d="M60 30 L60 12"/><path d="M86 34 L94 18"/></g>',
+  "Tacos mixte": '<path d="M12 80 A48 48 0 0 1 108 80 Z" fill="#e9c27a"/><path d="M22 80 A38 38 0 0 1 98 80 Z" fill="#ffcf5a"/><rect x="30" y="52" width="10" height="8" rx="3" fill="#c48b57"/><circle cx="58" cy="52" r="6" fill="#a81f19"/><rect x="72" y="54" width="10" height="8" rx="3" fill="#c48b57"/><g stroke="#ffc82e" stroke-width="5" stroke-linecap="round"><path d="M34 34 L28 18"/><path d="M60 30 L60 12"/><path d="M86 34 L94 18"/></g>',
+  "Sandwich escalope": '<rect x="14" y="80" width="92" height="18" rx="9" fill="#d9a45b"/><rect x="14" y="66" width="92" height="8" rx="4" fill="#6fbf4a"/><rect x="18" y="52" width="84" height="14" rx="6" fill="#e0a25a"/><rect x="22" y="44" width="76" height="8" rx="4" fill="#e8483a"/><path d="M12 44 Q60 -4 108 44 Z" fill="#e8b468"/>',
+  "Burger maison": '<path d="M16 54 Q60 2 104 54 Z" fill="#e0a04e"/><g fill="#fff3d6"><ellipse cx="44" cy="36" rx="3" ry="1.6"/><ellipse cx="62" cy="28" rx="3" ry="1.6"/><ellipse cx="78" cy="38" rx="3" ry="1.6"/></g><rect x="14" y="54" width="92" height="8" rx="4" fill="#6fbf4a"/><path d="M16 62 H104 L96 74 H24 Z" fill="#ffc400"/><rect x="16" y="72" width="88" height="12" rx="6" fill="#6b3a22"/><rect x="16" y="86" width="88" height="14" rx="7" fill="#d9954a"/>',
+  "Tiramisu": '<rect x="18" y="26" width="84" height="16" rx="4" fill="#5a3623"/><rect x="18" y="42" width="84" height="14" fill="#f6e9cf"/><rect x="18" y="56" width="84" height="12" fill="#c58b55"/><rect x="18" y="68" width="84" height="14" fill="#f6e9cf"/><rect x="18" y="82" width="84" height="14" rx="4" fill="#c58b55"/>',
+  "Crêpe chocolat": '<path d="M14 92 L60 20 L106 92 Z" fill="#e8b76c"/><path d="M60 20 L60 92" stroke="#c9924a" stroke-width="2"/><path d="M34 70 Q60 52 86 70" fill="none" stroke="#4a2a1a" stroke-width="5" stroke-linecap="round"/><path d="M44 84 Q60 72 76 84" fill="none" stroke="#4a2a1a" stroke-width="5" stroke-linecap="round"/>',
+  "Eau minérale 50 cl": '<rect x="50" y="10" width="20" height="10" rx="3" fill="#2f6fd6"/><path d="M46 20 H74 L80 34 V100 Q80 108 72 108 H48 Q40 108 40 100 V34 Z" fill="#bfe3ff"/><rect x="40" y="52" width="40" height="22" fill="#2f6fd6"/>',
+  "Boisson gazeuse 33 cl": '<rect x="38" y="18" width="44" height="86" rx="8" fill="#d9261c"/><rect x="38" y="48" width="44" height="26" fill="#fff4e6"/><rect x="42" y="12" width="36" height="8" rx="3" fill="#b9bec5"/>',
+  "Jus de fruits": '<path d="M34 34 H86 L80 104 H40 Z" fill="#ffb02e"/><path d="M34 34 H86 L84 50 H36 Z" fill="#ffe08a"/><path d="M70 6 L62 34" stroke="#e8483a" stroke-width="5" stroke-linecap="round"/>'
+};
+function art(it) {
+  var key = it.n[0], name = it.n[IDX[lang]];
+  if (PHOTOS[key]) return '<img src="' + PHOTOS[key] + '" alt="' + name + '" loading="lazy">';
+  var s = "";
+  if (PIZZAS[key]) {
+    var tops = PIZZAS[key];
+    s = '<circle cx="60" cy="60" r="54" fill="#e3a23b"/><circle cx="60" cy="60" r="47" fill="#d4402b"/><circle cx="60" cy="60" r="44" fill="#ffd25f"/>';
+    POS.forEach(function (p, i) { s += TOP[tops[i % tops.length]](p[0], p[1]); });
+  } else { s = OTHER[key] || ""; }
+  return '<svg viewBox="0 0 120 120" role="img" aria-label="' + name + '">' + s + '</svg>';
+}
+
+var cart = {}; // clé -> { it, si, price, qty }
+var cur = 0;
+var $ = function (id) { return document.getElementById(id); };
+function t(k) { return T[lang][k]; }
+function tr(a) { return a[IDX[lang]]; }
+function fmt(n) { return n.toLocaleString("fr-FR") + " " + (lang === "ar" ? "دج" : "DA"); }
+function fmtFR(n) { return (n.toLocaleString("fr-FR") + " DA").replace(/\s/g, " "); }
+
+function applyStatic() {
+  var h = document.documentElement;
+  h.lang = lang; h.dir = lang === "ar" ? "rtl" : "ltr";
+  document.querySelectorAll("[data-i18n]").forEach(function (el) { el.textContent = t(el.getAttribute("data-i18n")); });
+  document.querySelectorAll("[data-ph]").forEach(function (el) { el.placeholder = t(el.getAttribute("data-ph")); });
+  document.querySelectorAll("[data-aria]").forEach(function (el) { el.setAttribute("aria-label", t(el.getAttribute("data-aria"))); });
+  document.querySelectorAll("[data-lang]").forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-lang") === lang ? "true" : "false"); });
+}
+
+function buildTabs() {
+  var tabs = $("tabs"); tabs.innerHTML = "";
+  MENU.forEach(function (c, ci) {
+    var b = document.createElement("button");
+    b.className = "tab"; b.type = "button"; b.textContent = tr(c.label);
+    b.setAttribute("role", "tab"); b.setAttribute("aria-selected", ci === cur ? "true" : "false");
+    b.onclick = function () { cur = ci; markTabs(); showCat(); };
+    tabs.appendChild(b);
+  });
+}
+function markTabs() {
+  Array.prototype.forEach.call($("tabs").children, function (b, i) { b.setAttribute("aria-selected", i === cur ? "true" : "false"); });
+}
+
+function showCat() {
+  var menu = $("menu"), c = MENU[cur];
+  menu.innerHTML = "";
+  var h = document.createElement("h2"); h.textContent = tr(c.label); menu.appendChild(h);
+  if (tr(c.sub)) { var s = document.createElement("p"); s.className = "sub"; s.textContent = tr(c.sub); menu.appendChild(s); }
+  c.items.forEach(function (it) {
+    var row = document.createElement("div"); row.className = "item";
+    var pic = document.createElement("div"); pic.className = "pic"; pic.innerHTML = art(it);
+    var left = document.createElement("div");
+    var h3 = document.createElement("h3"); h3.textContent = tr(it.n);
+    if (it.tag) { var b = document.createElement("span"); b.className = "badge"; b.textContent = tr(it.tag); h3.appendChild(b); }
+    left.appendChild(h3);
+    if (tr(it.d)) { var p = document.createElement("p"); p.textContent = tr(it.d); left.appendChild(p); }
+    var buy = document.createElement("div"); buy.className = "buy";
+    it.p.forEach(function (price, i) {
+      var btn = document.createElement("button"); btn.type = "button";
+      var size = it.p.length > 1 ? tr(SIZES[i]) : "";
+      btn.innerHTML = (size ? "<small>" + size + "</small>" : "") + fmt(price);
+      btn.setAttribute("aria-label", t("add") + " " + tr(it.n) + (size ? " " + size : "") + ", " + fmt(price));
+      btn.onclick = function () { add(it, it.p.length > 1 ? i : -1, price); };
+      buy.appendChild(btn);
+    });
+    row.appendChild(pic); row.appendChild(left); row.appendChild(buy); menu.appendChild(row);
+  });
+}
+
+function add(it, si, price) {
+  var k = it.n[0] + "|" + si;
+  if (!cart[k]) cart[k] = { it: it, si: si, price: price, qty: 0 };
+  cart[k].qty++;
+  update();
+}
+function change(k, d) {
+  cart[k].qty += d;
+  if (cart[k].qty <= 0) delete cart[k];
+  update();
+}
+function totals() {
+  var count = 0, sub = 0;
+  Object.keys(cart).forEach(function (k) { count += cart[k].qty; sub += cart[k].qty * cart[k].price; });
+  var delivery = document.querySelector('input[name="mode"]:checked').value === "livraison";
+  return { count: count, sub: sub, delivery: delivery, fee: delivery && sub ? DELIVERY_FEE : 0 };
+}
+
+function update() {
+  var t0 = totals(), keys = Object.keys(cart);
+  $("bar").hidden = t0.count === 0 || !$("sheet").hidden;
+  $("barCount").textContent = t0.count + " " + (t0.count > 1 ? t("items") : t("item"));
+  $("barTotal").textContent = fmt(t0.sub);
+
+  var box = $("lines"); box.innerHTML = "";
+  if (!keys.length) { var e = document.createElement("p"); e.className = "empty"; e.textContent = t("empty"); box.appendChild(e); }
+  keys.forEach(function (k) {
+    var l = cart[k], nm = tr(l.it.n), sz = l.si > -1 ? tr(SIZES[l.si]) : "";
+    var d = document.createElement("div"); d.className = "line";
+    var left = document.createElement("div");
+    var b = document.createElement("b"); b.textContent = nm;
+    var sm = document.createElement("small"); sm.textContent = (sz ? sz + " · " : "") + fmt(l.price);
+    left.appendChild(b); left.appendChild(sm);
+    var q = document.createElement("div"); q.className = "qty";
+    var m = document.createElement("button"); m.type = "button"; m.textContent = "−"; m.setAttribute("aria-label", t("rem") + " " + nm);
+    var n = document.createElement("span"); n.textContent = l.qty;
+    var p = document.createElement("button"); p.type = "button"; p.textContent = "+"; p.setAttribute("aria-label", t("add") + " " + nm);
+    m.onclick = function () { change(k, -1); }; p.onclick = function () { change(k, 1); };
+    q.appendChild(m); q.appendChild(n); q.appendChild(p); left.appendChild(q);
+    var a = document.createElement("div"); a.className = "amt"; a.textContent = fmt(l.qty * l.price);
+    d.appendChild(left); d.appendChild(a); box.appendChild(d);
+  });
+
+  $("addrBox").hidden = !t0.delivery;
+  var total = t0.sub + t0.fee;
+  $("sum").innerHTML = '<div><span>' + t("sub") + '</span><span>' + fmt(t0.sub) + '</span></div>' +
+    (t0.delivery ? '<div><span>' + t("del") + '</span><span>' + fmt(t0.fee) + '</span></div>' : '') +
+    '<div class="tot"><span>' + t("total") + '</span><span>' + fmt(total) + '</span></div>';
+
+  var name = $("name").value.trim(), phone = $("phone").value.trim(), addr = $("addr").value.trim();
+  var ok = t0.count > 0 && name && phone && (!t0.delivery || (addr && t0.sub >= MIN_ORDER));
+  // Le message WhatsApp est toujours écrit en français, pour que la pizzeria reçoive un format unique
+  var lines = keys.map(function (k) {
+    var l = cart[k];
+    return "• " + l.qty + " x " + l.it.n[0] + (l.si > -1 ? " (" + SIZES[l.si][0] + ")" : "") + " = " + fmtFR(l.qty * l.price);
+  });
+  var msg = "Bonjour, je souhaite commander :\n" + lines.join("\n") + "\n\n" +
+    (t0.delivery ? "Livraison : " + fmtFR(t0.fee) + "\n" : "À emporter\n") + "Total : " + fmtFR(total) + "\n\n" +
+    "Nom : " + name + "\nTéléphone : " + phone + (t0.delivery ? "\nAdresse : " + addr : "");
+  var s = $("send");
+  s.href = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(msg);
+  s.setAttribute("aria-disabled", ok ? "false" : "true");
+  s.textContent = (t0.delivery && t0.sub > 0 && t0.sub < MIN_ORDER) ? t("minMsg") + fmt(MIN_ORDER) : t("send");
+}
+
+function setLang(l) {
+  lang = l;
+  try { localStorage.setItem("lang", l); } catch (e) {}
+  applyStatic(); buildTabs(); showCat(); update();
+}
+document.querySelectorAll("[data-lang]").forEach(function (b) { b.onclick = function () { setLang(b.getAttribute("data-lang")); }; });
+
+$("openCart").onclick = function () { $("sheet").hidden = false; $("bar").hidden = true; update(); };
+$("closeCart").onclick = function () { $("sheet").hidden = true; update(); };
+$("sheet").onclick = function (e) { if (e.target === $("sheet")) { $("sheet").hidden = true; update(); } };
+document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !$("sheet").hidden) { $("sheet").hidden = true; update(); } });
+["name", "phone", "addr"].forEach(function (id) { $(id).addEventListener("input", update); });
+document.querySelectorAll('input[name="mode"]').forEach(function (r) { r.addEventListener("change", update); });
+
+setLang(lang);
+</script>
+
+</body></html>
